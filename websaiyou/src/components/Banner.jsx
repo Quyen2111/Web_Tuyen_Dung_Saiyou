@@ -37,49 +37,73 @@ const Banner = () => {
 
   return (
     <div
-      className="py-8 px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between w-full gap-6"
+      className="relative py-12 px-4 sm:px-8 lg:px-12 flex flex-col lg:flex-row items-center justify-between w-full gap-8 overflow-hidden"
       style={{
-        background: 'linear-gradient(to right, #248b0a, rgb(29, 197, 51), rgb(11, 185, 49), #33cc33, rgb(23, 212, 23), rgb(87, 219, 35))',
+        background: 'linear-gradient(90deg, #1a7d0a 0%, #2ecc71 30%, #27ae60 60%, #33cc33 80%, #2ecc71 100%)',
       }}
     >
-      <div className="text-white w-full lg:w-2/3 max-w-5xl">
-        <div className="text-center mb-6">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-3 tracking-tight">
+      {/* Hiệu ứng ánh sáng nền */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+
+      {/* Nội dung bên trái */}
+      <div className="relative text-white w-full lg:w-2/3 max-w-5xl z-10">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 tracking-tight leading-tight animate-fadeIn">
             TÌM KIẾM VIỆC LÀM
           </h1>
-          <p className="text-base sm:text-lg font-medium opacity-90">
+          <p className="text-lg sm:text-xl font-medium opacity-90 animate-slideUp">
             Việc làm mới nhất, đầy đủ ngành nghề, khu vực
           </p>
         </div>
-        <p className="text-lg sm:text-xl font-semibold mb-8 text-center">
-          <span className="text-yellow-300">{prefix}</span>
-          <span className="text-white">{` ${suffix}`}</span>
+
+        {/* Thông điệp luân phiên */}
+        <p className="text-xl sm:text-2xl font-semibold mb-10 text-center animate-pulse">
+          <span className="text-yellow-200 drop-shadow-lg">{prefix}</span>
+          <span className="text-white drop-shadow-lg">{` ${suffix}`}</span>
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-3 w-full">
+        {/* Form tìm kiếm */}
+        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-4xl mx-auto">
           <input
             type="text"
             placeholder="Nhập Tên Công Việc"
-            className="px-4 py-2 rounded-lg bg-white text-gray-800 placeholder-gray-500 border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 w-full sm:min-w-[200px]"
+            className="px-5 py-3 rounded-full bg-white/90 text-gray-800 placeholder-gray-500 border border-gray-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all duration-300 w-full sm:min-w-[250px] hover:shadow-lg"
           />
-          <select className="px-4 py-2 rounded-lg bg-white text-gray-800 border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 w-full sm:min-w-[150px]">
+          <select
+            className="px-5 py-3 rounded-full bg-white/90 text-gray-800 border border-gray-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all duration-300 w-full sm:min-w-[200px] hover:shadow-lg"
+          >
             <option>Tất Cả Ngành Nghề</option>
+            <option>Bán hàng</option>
+            <option>Kế toán</option>
+            <option>Kỹ sư</option>
+            <option>IT - Phần mềm</option>
           </select>
-          <select className="px-4 py-2 rounded-lg bg-white text-gray-800 border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 w-full sm:min-w-[150px]">
+          <select
+            className="px-5 py-3 rounded-full bg-white/90 text-gray-800 border border-gray-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all duration-300 w-full sm:min-w-[200px] hover:shadow-lg"
+          >
             <option>Tất Cả Khu Vực</option>
+            <option>TP.HCM</option>
+            <option>Hà Nội</option>
+            <option>Đà Nẵng</option>
+            <option>Bình Dương</option>
           </select>
-          <button className="bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-800 cursor-pointer w-full sm:min-w-[120px]">
+          <button
+            className="bg-blue-700 text-white px-8 py-3 rounded-full shadow-lg hover:bg-blue-800 hover:shadow-xl transform hover:scale-105 transition-all duration-300 w-full sm:min-w-[150px]"
+          >
             Tìm kiếm
           </button>
         </div>
       </div>
 
-      <div className="mt-6 lg:mt-0 w-full lg:w-1/3 max-w-sm">
+      {/* Hình ảnh bên phải */}
+      <div className="relative mt-8 lg:mt-0 w-full lg:w-1/3 max-w-md animate-slideInRight">
         <img
           src="./img/banner0.jpg"
           alt="Job Search Illustration"
-          className="w-full h-auto rounded-lg shadow-lg object-contain"
+          className="w-full h-auto rounded-2xl shadow-2xl object-contain transform hover:scale-105 transition-transform duration-500"
         />
+        {/* Hiệu ứng ánh sáng cho hình ảnh */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/20 rounded-2xl pointer-events-none" />
       </div>
     </div>
   );
