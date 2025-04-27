@@ -9,6 +9,7 @@ import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import EmployerPage from './pages/EmployerPage';
+import ScrollToTopButton from './components/ScrollToTopButton';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <ScrollToTopButton />
       </div>
     </Router>
   );
