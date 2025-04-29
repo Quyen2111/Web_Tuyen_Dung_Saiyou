@@ -47,12 +47,18 @@ const Header = () => {
 
       {/* Buttons (Desktop) */}
       <div className="hidden md:flex items-center space-x-2 sm:space-x-4">
-        <button className="text-blue-600 cursor-pointer border border-blue-600 px-3 sm:px-4 py-1 sm:py-2 rounded-md hover:bg-blue-50 text-sm lg:text-base">
+        <Link
+          to="/login"
+          className="text-blue-600 cursor-pointer border border-blue-600 px-3 sm:px-4 py-1 sm:py-2 rounded-md hover:bg-blue-50 text-sm lg:text-base"
+        >
           Đăng nhập
-        </button>
-        <button className="bg-blue-600 cursor-pointer text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md hover:bg-blue-700 text-sm lg:text-base">
+        </Link>
+        <Link
+          to="/register"
+          className="bg-blue-600 cursor-pointer text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md hover:bg-blue-700 text-sm lg:text-base"
+        >
           Đăng ký
-        </button>
+        </Link>
         <div className="border-l-2 border-gray-200 pl-2 sm:pl-4">
           <span className="text-gray-600 font-medium text-sm lg:text-base">
             Nhà Tuyển Dụng
@@ -130,18 +136,20 @@ const Header = () => {
 
           {/* Buttons in Sidebar */}
           <div className="flex flex-col p-4 space-y-4">
-            <button
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-base"
-              onClick={toggleMenu}
-            >
-              Đăng ký
-            </button>
-            <button
-              className="text-blue-600 border border-blue-600 px-4 py-2 rounded-md hover:bg-blue-50 text-base"
+            <Link
+              to="/login"
+              className="text-blue-600 cursor-pointer border border-blue-600 px-3 sm:px-4 py-1 sm:py-2 rounded-md hover:bg-blue-50 text-sm lg:text-base"
               onClick={toggleMenu}
             >
               Đăng nhập
-            </button>
+            </Link>
+            <Link
+              to="/register"
+              className="bg-blue-600 cursor-pointer text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md hover:bg-blue-700 text-sm lg:text-base"
+              onClick={toggleMenu}
+            >
+              Đăng ký
+            </Link>
             <div className="pt-2">
               <span className="text-gray-600 font-medium text-base">
                 Chào Nhà Tuyển Dụng
