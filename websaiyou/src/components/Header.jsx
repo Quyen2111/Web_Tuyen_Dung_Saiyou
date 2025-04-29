@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isJobsDropdownOpen, setIsJobsDropdownOpen] = useState(false);
+  const location = useLocation();
+
+  // Xác định trạng thái Header dựa trên route
+  const isEmployer = location.pathname.startsWith('/employer');
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -34,7 +38,7 @@ const Header = () => {
     <header className="bg-white shadow-lg py-4 px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full sticky top-0 z-50">
       {/* Logo */}
       <div className="flex items-center animate-fadeIn">
-        <Link to="/">
+        <Link to={isEmployer ? '/employer' : '/'}>
           <div className="flex items-center transition-transform hover:scale-105">
             <img
               src="./img/logo.jpg"
@@ -50,132 +54,190 @@ const Header = () => {
 
       {/* Navigation (Desktop) */}
       <nav className="hidden md:flex space-x-6 lg:space-x-8 items-center">
-        <Link
-          to="/"
-          className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
-        >
-          Trang Chủ
-        </Link>
-
-        {/* Việc Làm với Dropdown */}
-        <div
-          className="relative"
-          onMouseEnter={() => setIsJobsDropdownOpen(true)}
-          onMouseLeave={() => setIsJobsDropdownOpen(false)}
-        >
-          <Link
-            to="/jobs"
-            className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg flex items-center transition-colors duration-200 animate-slideUp"
-          >
-            Việc Làm
-            <svg
-              className={`w-4 h-4 ml-1 transform transition-transform duration-200 ${
-                isJobsDropdownOpen ? 'rotate-180' : ''
-              }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+        {isEmployer ? (
+          <>
+            <Link
+              to="/employer/jobs"
+              className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </Link>
+              Tìm ứng viên
+            </Link>
+            <Link
+              to="/employer/post-job"
+              className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
+            >
+              Đăng tin tuyển dụng
+            </Link>
+            <Link
+              to="/employer/services"
+              className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
+            >
+              Gói dịch vụ
+            </Link>
+            <Link
+              to="/employer/contact"
+              className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
+            >
+              Liên hệ
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/"
+              className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
+            >
+              Trang Chủ
+            </Link>
 
-          {/* Dropdown */}
-          {isJobsDropdownOpen && (
-            <div className="absolute top-full left-0 mt-0 w-96 bg-white shadow-xl rounded-lg z-50 p-6 animate-fadeIn">
-              <div className="grid grid-cols-2 gap-6">
-                {/* Ngành Nghề */}
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
-                    Ngành Nghề
-                  </h4>
-                  <ul className="space-y-2">
-                    {industries.map((industry) => (
-                      <li key={industry.path}>
-                        <Link
-                          to={industry.path}
-                          className="text-gray-600 hover:text-blue-600 hover:underline text-sm transition-colors duration-200"
-                          onClick={() => setIsJobsDropdownOpen(false)}
-                        >
-                          {industry.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            {/* Việc Làm với Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsJobsDropdownOpen(true)}
+              onMouseLeave={() => setIsJobsDropdownOpen(false)}
+            >
+              <Link
+                to="/jobs"
+                className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg flex items-center transition-colors duration-200 animate-slideUp"
+              >
+                Việc Làm
+                <svg
+                  className={`w-4 h-4 ml-1 transform transition-transform duration-200 ${
+                    isJobsDropdownOpen ? 'rotate-180' : ''
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </Link>
 
-                {/* Khu Vực */}
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
-                    Khu Vực
-                  </h4>
-                  <ul className="space-y-2">
-                    {locations.map((location) => (
-                      <li key={location.path}>
-                        <Link
-                          to={location.path}
-                          className="text-gray-600 hover:text-blue-600 hover:underline text-sm transition-colors duration-200"
-                          onClick={() => setIsJobsDropdownOpen(false)}
-                        >
-                          {location.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+              {/* Dropdown */}
+              {isJobsDropdownOpen && (
+                <div className="absolute top-full left-0 mt-0 w-96 bg-white shadow-xl rounded-lg z-50 p-6 animate-fadeIn">
+                  <div className="grid grid-cols-2 gap-6">
+                    {/* Ngành Nghề */}
+                    <div>
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
+                        Ngành Nghề
+                      </h4>
+                      <ul className="space-y-2">
+                        {industries.map((industry) => (
+                          <li key={industry.path}>
+                            <Link
+                              to={industry.path}
+                              className="text-gray-600 hover:text-blue-600 hover:underline text-sm transition-colors duration-200"
+                              onClick={() => setIsJobsDropdownOpen(false)}
+                            >
+                              {industry.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Khu Vực */}
+                    <div>
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
+                        Khu Vực
+                      </h4>
+                      <ul className="space-y-2">
+                        {locations.map((location) => (
+                          <li key={location.path}>
+                            <Link
+                              to={location.path}
+                              className="text-gray-600 hover:text-blue-600 hover:underline text-sm transition-colors duration-200"
+                              onClick={() => setIsJobsDropdownOpen(false)}
+                            >
+                              {location.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
-          )}
-        </div>
 
-        <Link
-          to="/resume"
-          className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
-        >
-          Hồ sơ & CV
-        </Link>
-        <Link
-          to="/about"
-          className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
-        >
-          Giới Thiệu
-        </Link>
-        <Link
-          to="/contact"
-          className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
-        >
-          Liên Hệ
-        </Link>
+            <Link
+              to="/resume"
+              className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
+            >
+              Hồ sơ & CV
+            </Link>
+            <Link
+              to="/about"
+              className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
+            >
+              Giới Thiệu
+            </Link>
+            <Link
+              to="/contact"
+              className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
+            >
+              Liên Hệ
+            </Link>
+          </>
+        )}
       </nav>
 
       {/* Buttons (Desktop) */}
       <div className="hidden md:flex items-center space-x-3 lg:space-x-4 animate-slideInRight">
-        <Link
-          to="/login"
-          className="text-blue-600 border-2 border-blue-600 px-4 py-2 rounded-full hover:bg-blue-600 hover:text-white font-medium text-sm lg:text-base transition-all duration-300"
-        >
-          Đăng nhập
-        </Link>
-        <Link
-          to="/register"
-          className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 font-medium text-sm lg:text-base transition-all duration-300"
-        >
-          Đăng ký
-        </Link>
-        <div className="border-l-2 border-gray-300 pl-3 lg:pl-4">
-          <Link
-            to="/employer"
-            className="text-gray-700 hover:text-blue-600 font-medium text-sm lg:text-base transition-colors duration-200"
-          >
-            Nhà Tuyển Dụng
-          </Link>
-        </div>
+        {isEmployer ? (
+          <>
+            <Link
+              to="/employer/login"
+              className="text-blue-600 border-2 border-blue-600 px-4 py-2 rounded-full hover:bg-blue-600 hover:text-white font-medium text-sm lg:text-base transition-all duration-300"
+            >
+              Đăng nhập
+            </Link>
+            <Link
+              to="/employer/register"
+              className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 font-medium text-sm lg:text-base transition-all duration-300"
+            >
+              Đăng ký
+            </Link>
+            <div className="border-l-2 border-gray-300 pl-3 lg:pl-4">
+              <Link
+                to="/"
+                className="text-gray-700 hover:text-blue-600 font-medium text-sm lg:text-base transition-colors duration-200"
+              >
+                Dành cho ứng viên
+              </Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/jobseeker/login"
+              className="text-blue-600 border-2 border-blue-600 px-4 py-2 rounded-full hover:bg-blue-600 hover:text-white font-medium text-sm lg:text-base transition-all duration-300"
+            >
+              Đăng nhập
+            </Link>
+            <Link
+              to="/jobseeker/register"
+              className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 font-medium text-sm lg:text-base transition-all duration-300"
+            >
+              Đăng ký
+            </Link>
+            <div className="border-l-2 border-gray-300 pl-3 lg:pl-4">
+              <Link
+                to="/employer"
+                className="text-gray-700 hover:text-blue-600 font-medium text-sm lg:text-base transition-colors duration-200"
+              >
+                Nhà Tuyển Dụng
+              </Link>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Hamburger Icon (Mobile) */}
@@ -209,133 +271,205 @@ const Header = () => {
 
           {/* Menu Items */}
           <nav className="flex flex-col p-5 space-y-4">
-            <Link
-              to="/"
-              className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
-              onClick={toggleMenu}
-            >
-              Trang Chủ
-            </Link>
-
-            {/* Việc Làm với Dropdown trên Mobile */}
-            <div>
-              <div
-                className="text-gray-700 hover:text-blue-600 font-medium text-lg flex items-center transition-colors duration-200 animate-fadeIn"
-                onClick={toggleJobsDropdown}
-              >
-                Việc Làm
-                <svg
-                  className={`w-5 h-5 ml-2 transform transition-transform duration-200 ${
-                    isJobsDropdownOpen ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+            {isEmployer ? (
+              <>
+                <Link
+                  to="/employer/jobs"
+                  className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
+                  onClick={toggleMenu}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
+                  Tìm ứng viên
+                </Link>
+                <Link
+                  to="/employer/post-job"
+                  className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
+                  onClick={toggleMenu}
+                >
+                  Đăng tin tuyển dụng
+                </Link>
+                <Link
+                  to="/employer/services"
+                  className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
+                  onClick={toggleMenu}
+                >
+                  Gói dịch vụ
+                </Link>
+                <Link
+                  to="/employer/contact"
+                  className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
+                  onClick={toggleMenu}
+                >
+                  Liên hệ
+                </Link>
+                <Link
+                  to="/"
+                  className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
+                  onClick={toggleMenu}
+                >
+                  Dành cho ứng viên
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/"
+                  className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
+                  onClick={toggleMenu}
+                >
+                  Trang Chủ
+                </Link>
 
-              {/* Dropdown trên Mobile */}
-              {isJobsDropdownOpen && (
-                <div className="pl-4 pt-3 space-y-3 animate-slideUp">
-                  {/* Ngành Nghề */}
-                  <div>
-                    <h4 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
-                      Ngành Nghề
-                    </h4>
-                    <ul className="space-y-2">
-                      {industries.map((industry) => (
-                        <li key={industry.path}>
-                          <Link
-                            to={industry.path}
-                            className="text-gray-600 hover:text-blue-600 text-sm transition-colors duration-200"
-                            onClick={toggleMenu}
-                          >
-                            {industry.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                {/* Việc Làm với Dropdown trên Mobile */}
+                <div>
+                  <div
+                    className="text-gray-700 hover:text-blue-600 font-medium text-lg flex items-center transition-colors duration-200 animate-fadeIn"
+                    onClick={toggleJobsDropdown}
+                  >
+                    Việc Làm
+                    <svg
+                      className={`w-5 h-5 ml-2 transform transition-transform duration-200 ${
+                        isJobsDropdownOpen ? 'rotate-180' : ''
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
                   </div>
 
-                  {/* Khu Vực */}
-                  <div>
-                    <h4 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
-                      Khu Vực
-                    </h4>
-                    <ul className="space-y-2">
-                      {locations.map((location) => (
-                        <li key={location.path}>
-                          <Link
-                            to={location.path}
-                            className="text-gray-600 hover:text-blue-600 text-sm transition-colors duration-200"
-                            onClick={toggleMenu}
-                          >
-                            {location.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  {/* Dropdown trên Mobile */}
+                  {isJobsDropdownOpen && (
+                    <div className="pl-4 pt-3 space-y-3 animate-slideUp">
+                      {/* Ngành Nghề */}
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
+                          Ngành Nghề
+                        </h4>
+                        <ul className="space-y-2">
+                          {industries.map((industry) => (
+                            <li key={industry.path}>
+                              <Link
+                                to={industry.path}
+                                className="text-gray-600 hover:text-blue-600 text-sm transition-colors duration-200"
+                                onClick={toggleMenu}
+                              >
+                                {industry.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Khu Vực */}
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
+                          Khu Vực
+                        </h4>
+                        <ul className="space-y-2">
+                          {locations.map((location) => (
+                            <li key={location.path}>
+                              <Link
+                                to={location.path}
+                                className="text-gray-600 hover:text-blue-600 text-sm transition-colors duration-200"
+                                onClick={toggleMenu}
+                              >
+                                {location.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
 
-            <Link
-              to="/resume"
-              className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
-              onClick={toggleMenu}
-            >
-              Hồ sơ & CV
-            </Link>
-            <Link
-              to="/about"
-              className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
-              onClick={toggleMenu}
-            >
-              Giới Thiệu
-            </Link>
-            <Link
-              to="/contact"
-              className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
-              onClick={toggleMenu}
-            >
-              Liên Hệ
-            </Link>
+                <Link
+                  to="/resume"
+                  className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
+                  onClick={toggleMenu}
+                >
+                  Hồ sơ & CV
+                </Link>
+                <Link
+                  to="/about"
+                  className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
+                  onClick={toggleMenu}
+                >
+                  Giới Thiệu
+                </Link>
+                <Link
+                  to="/contact"
+                  className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
+                  onClick={toggleMenu}
+                >
+                  Liên Hệ
+                </Link>
+              </>
+            )}
           </nav>
 
           {/* Buttons in Sidebar */}
           <div className="flex flex-col p-5 space-y-4">
-            <Link
-              to="/register"
-              className="bg-blue-600 text-white px-5 py-3 rounded-full hover:bg-blue-700 font-medium text-lg transition-all duration-300 animate-slideInRight"
-              onClick={toggleMenu}
-            >
-              Đăng ký
-            </Link>
-            <Link
-              to="/login"
-              className="text-blue-600 border-2 border-blue-600 px-5 py-3 rounded-full hover:bg-blue-600 hover:text-white font-medium text-lg transition-all duration-300 animate-slideInRight"
-              onClick={toggleMenu}
-            >
-              Đăng nhập
-            </Link>
-            <div className="pt-2">
-              <Link
-                to="/employer"
-                className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-slideInRight"
-                onClick={toggleMenu}
-              >
-                Chào Nhà Tuyển Dụng
-              </Link>
-            </div>
+            {isEmployer ? (
+              <>
+                <Link
+                  to="/employer/register"
+                  className="bg-blue-600 text-white px-5 py-3 rounded-full hover:bg-blue-700 font-medium text-lg transition-all duration-300 animate-slideInRight"
+                  onClick={toggleMenu}
+                >
+                  Đăng ký
+                </Link>
+                <Link
+                  to="/employer/login"
+                  className="text-blue-600 border-2 border-blue-600 px-5 py-3 rounded-full hover:bg-blue-600 hover:text-white font-medium text-lg transition-all duration-300 animate-slideInRight"
+                  onClick={toggleMenu}
+                >
+                  Đăng nhập
+                </Link>
+                <div className="pt-2">
+                  <Link
+                    to="/"
+                    className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-slideInRight"
+                    onClick={toggleMenu}
+                  >
+                    Dành cho ứng viên
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/jobseeker/register"
+                  className="bg-blue-600 text-white px-5 py-3 rounded-full hover:bg-blue-700 font-medium text-lg transition-all duration-300 animate-slideInRight"
+                  onClick={toggleMenu}
+                >
+                  Đăng ký
+                </Link>
+                <Link
+                  to="/jobseeker/login"
+                  className="text-blue-600 border-2 border-blue-600 px-5 py-3 rounded-full hover:bg-blue-600 hover:text-white font-medium text-lg transition-all duration-300 animate-slideInRight"
+                  onClick={toggleMenu}
+                >
+                  Đăng nhập
+                </Link>
+                <div className="pt-2">
+                  <Link
+                    to="/employer"
+                    className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-slideInRight"
+                    onClick={toggleMenu}
+                  >
+                    Chào Nhà Tuyển Dụng
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

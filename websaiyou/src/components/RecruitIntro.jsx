@@ -10,8 +10,15 @@ const RecruitIntro = () => {
         <div className="bg-white border border-gray-300 rounded-b-md p-2 text-sm text-gray-700">
           <p className="font-semibold text-blue-700">Tuyển dụng là gì?</p>
           <p>
-            Tuyển dụng là quá trình thu hút, sàng lọc, phỏng vấn và tuyển chọn ứng viên... <a href="#" className="text-blue-500 hover:underline">Xem chi tiết ➔</a>
+            Tuyển dụng là quá trình thu hút, sàng lọc, phỏng vấn và tuyển chọn ứng viên cho các vị trí còn trống, 
+            nhằm đáp ứng nhu cầu về nguồn nhân lực cho doanh nghiệp ... 
+            
           </p>
+            <Link 
+              to="/about"
+              className="text-blue-500 hover:underline">
+              Xem chi tiết ➔
+            </Link>
         </div>
     </>
   );

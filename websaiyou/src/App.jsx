@@ -6,10 +6,8 @@ import JobsPage from './pages/JobsPage';
 import ResumePage from './pages/ResumePage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import AuthForm from './components/AuthForm';
 import EmployerPage from './pages/EmployerPage';
-import ScrollToTopButton from './components/ScrollToTopButton';
 
 function App() {
   return (
@@ -20,16 +18,19 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/jobs" element={<JobsPage />} />
+            <Route path="/jobs/industry/:industry" element={<JobsPage />} />
+            <Route path="/jobs/location/:location" element={<JobsPage />} />
             <Route path="/resume" element={<ResumePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/employer" element={<EmployerPage />} />
+            <Route path="/jobseeker/login" element={<AuthForm />} />
+            <Route path="/jobseeker/register" element={<AuthForm />} />
+            <Route path="/employer/login" element={<AuthForm />} />
+            <Route path="/employer/register" element={<AuthForm />} />
+            <Route path="/employer/*" element={<EmployerPage />} />
           </Routes>
         </main>
         <Footer />
-        <ScrollToTopButton />
       </div>
     </Router>
   );
