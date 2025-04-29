@@ -43,34 +43,39 @@ const jobs = [
 
 const JobList = () => {
   return (
-    <div className="w-full max-w-7xl mx-auto py-8 px-4">
-      {/* Tiêu đề */}
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        Việc làm mới nhất
-      </h2>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
+      <div className="col-span-1 md:col-span-2">
+        <h2 className="bg-green-600 text-white p-2 font-bold rounded-t-md">Việc làm mới nhất</h2>
 
-      {/* Container chính */}
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Danh sách công việc */}
-        <div className="w-full lg:w-2/3">
-          {jobs.map((job, index) => (
-            <JobListItem
-              key={index}
-              logo={job.logo}
-              company={job.company}
-              title={job.title}
-              salary={job.salary}
-              location={job.location}
-            />
-          ))}
+        <div className="flex flex-col gap-8">
+          {/* List job */}
+          <div className="bg-white border border-gray-300 rounded-b-md">
+            {jobs.map((job, index) => (
+              <JobListItem
+                key={index}
+                logo={job.logo}
+                company={job.company}
+                title={job.title}
+                salary={job.salary}
+                location={job.location}
+              />
+            ))}
+            <div className="text-right p-2">
+              <a href="#" className="text-blue-500 hover:underline">
+                Xem tất cả ➔
+              </a>
+            </div>
+          </div>
         </div>
-
-        {/* Bộ lọc (bên phải) */}
-        <JobFilter />
       </div>
 
-      {/* Phần giới thiệu tuyển dụng */}
-      <RecruitIntro />
+      <div className="space-y-4">
+        {/* Filter */}
+        <JobFilter />
+
+        {/* Intro */}
+        <RecruitIntro />
+      </div>
     </div>
   );
 };
