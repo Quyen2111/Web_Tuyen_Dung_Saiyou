@@ -7,7 +7,6 @@ import ResumePage from './pages/ResumePage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import AuthForm from './components/AuthForm';
-import EmployerPage from './pages/EmployerPage';
 import JobDetailPage from './pages/JobDetailPage';
 import EmployerService from './pages/EmployerService';
 import PostJob from './pages/PostJob';
@@ -32,13 +31,14 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/jobseeker/login" element={<AuthForm />} />
             <Route path="/jobseeker/register" element={<AuthForm />} />
+
             <Route path="/employer/login" element={<AuthForm />} />
             <Route path="/employer/register" element={<AuthForm />} />
             <Route path="/employer/services" element={<EmployerService />} />
             <Route path="/employer/post-job" element={<PostJob />} />
             <Route path="/employer/jobs" element={<EmployerJob />} />
             <Route path="/employer/contact" element={<EmployerContact />} />
-            <Route path="/employer/*" element={<EmployerPage />} />
+            <Route path="/employer/*" element={<EmployerService />} />
           </Routes>
         </main>
         <Footer />

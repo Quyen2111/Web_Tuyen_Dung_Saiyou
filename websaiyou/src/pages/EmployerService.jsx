@@ -31,7 +31,7 @@ const EmployerService = () => {
             </div>
             <div className="md:w-1/2 bg-blue-100 relative min-h-[300px]">
               <img
-                src="./img/logotuyendung.png"
+                src="/img/logotuyendung.png"
                 alt="Người tuyển dụng"
                 className="object-contain w-full h-full"
               />

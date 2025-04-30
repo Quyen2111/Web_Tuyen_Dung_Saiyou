@@ -37,7 +37,7 @@ const JobDetail = ({ job }) => {
                 {job.location}
               </li>
             </ul>
-            <Link to="/apply">
+            <Link to="/resume">
               <button className="bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
                 Nộp CV
               </button>
