@@ -23,7 +23,7 @@ const Footer = () => {
               <Link to="/">
                 <div className="flex items-center transition-transform hover:scale-105">
                   <img
-                    src="./img/logo.jpg"
+                    src="/img/logo.jpg"
                     alt="Job Search Logo"
                     className="h-auto w-16 max-w-full rounded-lg shadow-md"
                   />

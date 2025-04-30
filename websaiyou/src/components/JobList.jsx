@@ -12,7 +12,7 @@ const JobList = React.memo(({ jobs, pagination }) => {
         {jobs.map((job, index) => (
           <Link
             to={`/job/${job.id}`}
-            key={job.id || index}
+            key={job.id}
             className="block opacity-0 animate-fadeIn"
             style={{ animationDelay: `${index * 100}ms` }}
           >

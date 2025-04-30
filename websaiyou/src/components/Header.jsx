@@ -6,7 +6,6 @@ const Header = () => {
   const [isJobsDropdownOpen, setIsJobsDropdownOpen] = useState(false);
   const location = useLocation();
 
-  // Xác định trạng thái Header dựa trên route
   const isEmployer = location.pathname.startsWith('/employer');
 
   const toggleMenu = () => {
@@ -18,30 +17,29 @@ const Header = () => {
   };
 
   const industries = [
-    { name: 'Bán hàng', path: '/jobs/industry/sales' },
-    { name: 'Kế toán', path: '/jobs/industry/accounting' },
-    { name: 'Kinh doanh', path: '/jobs/industry/business' },
-    { name: 'Kỹ sư', path: '/jobs/industry/engineering' },
-    { name: 'IT - Phần mềm', path: '/jobs/industry/it' },
-    { name: 'Nghề Khác', path: '/jobs/industry/other' },
+    { name: 'Bán hàng', value: 'sales' },
+    { name: 'Kế toán', value: 'accounting' },
+    { name: 'Kinh doanh', value: 'business' },
+    { name: 'Kỹ sư', value: 'engineering' },
+    { name: 'IT - Phần mềm', value: 'it' },
+    { name: 'Nghề Khác', value: 'other' },
   ];
 
   const locations = [
-    { name: 'TP.HCM', path: '/jobs/location/hcm' },
-    { name: 'Hà Nội', path: '/jobs/location/hanoi' },
-    { name: 'Bình Dương', path: '/jobs/location/binh-duong' },
-    { name: 'Đà Nẵng', path: '/jobs/location/da-nang' },
-    { name: 'Đồng Nai', path: '/jobs/location/dong-nai' },
+    { name: 'TP.HCM', value: 'hcm' },
+    { name: 'Hà Nội', value: 'hanoi' },
+    { name: 'Bình Dương', value: 'binh-duong' },
+    { name: 'Đà Nẵng', value: 'da-nang' },
+    { name: 'Đồng Nai', value: 'dong-nai' },
   ];
 
   return (
     <header className="bg-white shadow-lg py-4 px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full sticky top-0 z-50">
-      {/* Logo */}
       <div className="flex items-center animate-fadeIn">
         <Link to={isEmployer ? '/employer' : '/'}>
           <div className="flex items-center transition-transform hover:scale-105">
             <img
-              src="./img/logo.jpg"
+              src="/img/logo.jpg"
               alt="Job Search Logo"
               className="h-auto w-16 sm:w-20 lg:w-24 max-w-full"
             />
@@ -52,7 +50,6 @@ const Header = () => {
         </Link>
       </div>
 
-      {/* Navigation (Desktop) */}
       <nav className="hidden md:flex space-x-6 lg:space-x-8 items-center">
         {isEmployer ? (
           <>
@@ -90,7 +87,6 @@ const Header = () => {
               Trang Chủ
             </Link>
 
-            {/* Việc Làm với Dropdown */}
             <div
               className="relative"
               onMouseEnter={() => setIsJobsDropdownOpen(true)}
@@ -119,20 +115,18 @@ const Header = () => {
                 </svg>
               </Link>
 
-              {/* Dropdown */}
               {isJobsDropdownOpen && (
                 <div className="absolute top-full left-0 mt-0 w-96 bg-white shadow-xl rounded-lg z-50 p-6 animate-fadeIn">
                   <div className="grid grid-cols-2 gap-6">
-                    {/* Ngành Nghề */}
                     <div>
                       <h4 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
                         Ngành Nghề
                       </h4>
                       <ul className="space-y-2">
                         {industries.map((industry) => (
-                          <li key={industry.path}>
+                          <li key={industry.value}>
                             <Link
-                              to={industry.path}
+                              to={`/jobs?industry=${industry.value}`}
                               className="text-gray-600 hover:text-blue-600 hover:underline text-sm transition-colors duration-200"
                               onClick={() => setIsJobsDropdownOpen(false)}
                             >
@@ -143,16 +137,15 @@ const Header = () => {
                       </ul>
                     </div>
 
-                    {/* Khu Vực */}
                     <div>
                       <h4 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
                         Khu Vực
                       </h4>
                       <ul className="space-y-2">
                         {locations.map((location) => (
-                          <li key={location.path}>
+                          <li key={location.value}>
                             <Link
-                              to={location.path}
+                              to={`/jobs?location=${location.value}`}
                               className="text-gray-600 hover:text-blue-600 hover:underline text-sm transition-colors duration-200"
                               onClick={() => setIsJobsDropdownOpen(false)}
                             >
@@ -183,13 +176,12 @@ const Header = () => {
               to="/contact"
               className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
             >
-              Liên Hệ
+              Liên hệ
             </Link>
           </>
         )}
       </nav>
 
-      {/* Buttons (Desktop) */}
       <div className="hidden md:flex items-center space-x-3 lg:space-x-4 animate-slideInRight">
         {isEmployer ? (
           <>
@@ -240,7 +232,6 @@ const Header = () => {
         )}
       </div>
 
-      {/* Hamburger Icon (Mobile) */}
       <div className="md:hidden">
         <button onClick={toggleMenu} className="text-gray-700 focus:outline-none">
           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -249,14 +240,12 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Mobile Menu (Sidebar) */}
       {isMenuOpen && (
         <div className="md:hidden fixed inset-0 bg-white z-50 flex flex-col transform transition-transform duration-300 animate-slideInRight">
-          {/* Header của Sidebar */}
           <div className="flex items-center justify-between p-5 border-b border-gray-200">
             <div className="flex items-center">
               <img
-                src="./img/logo.jpg"
+                src="/img/logo.jpg"
                 alt="Job Search Logo"
                 className="h-auto w-16 max-w-full"
               />
@@ -269,7 +258,6 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Menu Items */}
           <nav className="flex flex-col p-5 space-y-4">
             {isEmployer ? (
               <>
@@ -319,7 +307,6 @@ const Header = () => {
                   Trang Chủ
                 </Link>
 
-                {/* Việc Làm với Dropdown trên Mobile */}
                 <div>
                   <div
                     className="text-gray-700 hover:text-blue-600 font-medium text-lg flex items-center transition-colors duration-200 animate-fadeIn"
@@ -344,19 +331,17 @@ const Header = () => {
                     </svg>
                   </div>
 
-                  {/* Dropdown trên Mobile */}
                   {isJobsDropdownOpen && (
                     <div className="pl-4 pt-3 space-y-3 animate-slideUp">
-                      {/* Ngành Nghề */}
                       <div>
                         <h4 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
                           Ngành Nghề
                         </h4>
                         <ul className="space-y-2">
                           {industries.map((industry) => (
-                            <li key={industry.path}>
+                            <li key={industry.value}>
                               <Link
-                                to={industry.path}
+                                to={`/jobs?industry=${industry.value}`}
                                 className="text-gray-600 hover:text-blue-600 text-sm transition-colors duration-200"
                                 onClick={toggleMenu}
                               >
@@ -367,16 +352,15 @@ const Header = () => {
                         </ul>
                       </div>
 
-                      {/* Khu Vực */}
                       <div>
                         <h4 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
                           Khu Vực
                         </h4>
                         <ul className="space-y-2">
                           {locations.map((location) => (
-                            <li key={location.path}>
+                            <li key={location.value}>
                               <Link
-                                to={location.path}
+                                to={`/jobs?location=${location.value}`}
                                 className="text-gray-600 hover:text-blue-600 text-sm transition-colors duration-200"
                                 onClick={toggleMenu}
                               >
@@ -415,7 +399,6 @@ const Header = () => {
             )}
           </nav>
 
-          {/* Buttons in Sidebar */}
           <div className="flex flex-col p-5 space-y-4">
             {isEmployer ? (
               <>
