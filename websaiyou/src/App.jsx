@@ -8,6 +8,12 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import AuthForm from './components/AuthForm';
 import EmployerPage from './pages/EmployerPage';
+import JobDetailPage from './pages/JobDetailPage';
+import EmployerService from './pages/EmployerService';
+import PostJob from './pages/PostJob';
+import EmployerJob from './pages/EmployerJob';
+import EmployerContact from './pages/EmployerContact';
+
 
 function App() {
   return (
