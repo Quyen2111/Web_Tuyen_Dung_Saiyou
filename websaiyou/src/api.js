@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://67e24f6897fc65f535355b9b.mockapi.io/jobs'; // Thay bằng URL MockAPI của bạn
+const API_URL = 'https://6811d48d3ac96f7119a5c04f.mockapi.io/TuyenDung/jobDatas'; // Thay bằng URL MockAPI của bạn
 
 export const fetchJobs = async () => {
   try {

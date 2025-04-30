@@ -8,6 +8,7 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import AuthForm from './components/AuthForm';
 import EmployerPage from './pages/EmployerPage';
+import JobDetailPage from './pages/JobDetailPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/jobs" element={<JobsPage />} />
             <Route path="/jobs/industry/:industry" element={<JobsPage />} />
             <Route path="/jobs/location/:location" element={<JobsPage />} />
+            <Route path="/job/:jobId" element={<JobDetailPage />} />
             <Route path="/resume" element={<ResumePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
