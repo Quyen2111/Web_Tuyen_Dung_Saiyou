@@ -8,6 +8,8 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import AuthForm from './components/AuthForm';
 import EmployerPage from './pages/EmployerPage';
+import EmployerService from './pages/EmployerService';
+import PostJob from './pages/PostJob';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
             <Route path="/jobseeker/register" element={<AuthForm />} />
             <Route path="/employer/login" element={<AuthForm />} />
             <Route path="/employer/register" element={<AuthForm />} />
+            <Route path="/employer/services" element={<EmployerService />} />
+            <Route path="/employer/post-job" element={<PostJob />} />
             <Route path="/employer/*" element={<EmployerPage />} />
           </Routes>
         </main>
