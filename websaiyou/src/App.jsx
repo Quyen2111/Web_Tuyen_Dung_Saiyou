@@ -11,6 +11,7 @@ import EmployerPage from './pages/EmployerPage';
 import EmployerService from './pages/EmployerService';
 import PostJob from './pages/PostJob';
 import EmployerJob from './pages/EmployerJob';
+import EmployerContact from './pages/EmployerContact';
 
 function App() {
   return (
@@ -33,7 +34,7 @@ function App() {
             <Route path="/employer/services" element={<EmployerService />} />
             <Route path="/employer/post-job" element={<PostJob />} />
             <Route path="/employer/jobs" element={<EmployerJob />} />
-            <Route path="/employer/contact" element={<EmployerJob />} />
+            <Route path="/employer/contact" element={<EmployerContact />} />
             <Route path="/employer/*" element={<EmployerPage />} />
           </Routes>
         </main>
