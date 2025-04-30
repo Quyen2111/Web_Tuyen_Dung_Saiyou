@@ -1,0 +1,330 @@
+// định dạng trong moackapi
+
+const jobsDatas = 
+[
+    {
+      "logo": "./img/congty/ctFPT.jpg",
+      "company": "CÔNG TY PHÁT TRIỂN CHƯƠNG TRÌNH (Dịch - Biên Tập)",
+      "title": "TOÀN THỜI GIAN GIAO DỊCH FPT",
+      "salary": "Trên 11 triệu VND",
+      "location": "Hà Nội",
+      "industry": "it",
+      "date": "2025-04-01",
+      "time": "2 tháng",
+      "rank": "Chuyên viên-Nhân viên",
+      "quantity": "3 người",
+      "form": "Toàn thời gian",
+      "degree": "Đại học",
+      "experience": "2 năm",
+      "professional": "An toàn lao động/Môi trường - Xử lý chất thải/Sản xuất - Lắp ráp - Chế biến",
+      "description": [
+        "Biên tập và dịch sách Chương trình Cao Đẳng",
+        "Quản lý, điều phối việc xây dựng học liệu, chỉnh sửa học liệu theo phản hồi của giảng viên",
+        "Tham gia viết bài tham dự các hội thảo/ hội nghị quốc tế",
+        "Các công việc khác theo sự phân công của cán bộ quản lý"
+      ],
+      "requirements": [
+        "Tốt nghiệp đại học chuyên ngành tiếng Anh hoặc tốt nghiệp Đại học và có chứng chỉ tiếng Anh tương đương trình độ cao cấp bậc 5 theo khung tham chiếu ngôn ngữ chung châu Âu (CEFR)",
+        "Biết sử dụng vi tính văn phòng (Word, Excel, PowerPoint...)",
+        "Nhanh nhẹn, cẩn thận, chịu khó trong công việc",
+        "Có thái độ cầu thị, ham học hỏi",
+        "Đam mê công việc nghiên cứu và giảng dạy",
+        "Ưu tiên tốt nghiệp ngành Quản trị kinh doanh hoặc Công nghệ thông tin, có kinh nghiệm giảng dạy hoặc làm việc đúng chuyên ngành tối thiểu 1 năm"
+      ],
+      "benefits": [
+        "Được đóng BHXH, BHYT, BHTN... theo quy định của Nhà nước",
+        "Môi trường làm việc thân thiện, năng động, chuyên nghiệp và nhiều cơ hội phát triển",
+        "Trợ cấp nhà trọ, xăng dầu, sinh hoạt, quà lễ tết",
+        "Mức lương xứng đáng với năng lực làm việc, chi tiết mức lương sẽ trao đổi thêm trong quá trình phỏng vấn",
+        "Người nhà được hưởng chế độ ưu đãi học phí khi học tập tại Tổ chức Giáo dục FPT",
+        "Các quyền lợi khác: du lịch nghỉ mát hằng năm, tham gia các hoạt động vui chơi giải trí…"
+      ],
+      "workplace": "Trường Đại học FPT",
+      "id": "1"
+    },
+    {
+      "logo": "./img/congty/ctTNHH_DongHui.jpg",
+      "company": "CÔNG TY TNHH ĐÔNG HÙI",
+      "title": "KẾ TOÁN TỔNG HỢP",
+      "salary": "15 triệu VND",
+      "location": "Hà Nội",
+      "industry": "accounting",
+      "date": "2025-04-04",
+      "time": "2 tháng",
+      "rank": "Chuyên viên-Nhân viên",
+      "quantity": "4 người",
+      "form": "Toàn thời gian",
+      "degree": "Cao đẳng",
+      "experience": "2 năm",
+      "professional": "An toàn lao động/Môi trường - Xử lý chất thải/Sản xuất - Lắp ráp - Chế biến",
+      "description": [
+        "Lập báo cáo thuế GTGT, TNCN định kỳ hàng quý.",
+        "Theo dõi, đối chiếu số liệu chi tiết với sổ tổng hợp.",
+        "Theo dõi công nợ phải thu phải trả.",
+        "Xuất hóa đơn theo dõi doanh thu bán hàng.",
+        "Các công việc khác theo sự sắp xếp của Kế toán trưởng."
+      ],
+      "requirements": [
+        "Tốt nghiệp Đại học, Cao đẳng chuyên ngành liên quan",
+        "Biết sử dụng vi tính văn phòng (Word, Excel, PowerPoint...)",
+        "Nhanh nhẹn, cẩn thận, chịu khó trong công việc",
+        "Có thái độ cầu thị, ham học hỏi",
+        "Đam mê công việc nghiên cứu và giảng dạy",
+        "Hiểu biết về nhập khẩu và thanh toán quốc tế, biết làm báo cáo tài chính là lợi thế"
+      ],
+      "benefits": [
+        "Mức lương từ 15 triệu trở lên + các khoản phụ cấp, thỏa thuận theo năng lực và kinh nghiệm.",
+        "Môi trường làm việc thân thiện, năng động, chuyên nghiệp và nhiều cơ hội phát triển",
+        "Trợ cấp nhà trọ, xăng dầu, sinh hoạt, quà Lễ tết.",
+        "Thời gian làm việc: theo giờ hành chính từ thứ 2 tới sáng thứ 7.",
+        "Môi trường làm việc thân thiện, ổn định và hỗ trợ nhau",
+        "Các quyền lợi khác: du lịch nghỉ mát hằng năm, tham gia các hoạt động vui chơi giải trí…"
+      ],
+      "workplace": "Hà Nội: Lô thương mại số 01 tầng 03 Tòa nhà Luxury Park Views, D32 khu đô thị mới Cầu Giấy, Phường Yên Hoà, Cầu Giấy",
+      "id": "2"
+    },
+    {
+      "logo": "./img/congty/ctOPPO.png",
+      "company": "CÔNG TY OPPO VIỆT NAM",
+      "title": "NHÂN VIÊN BÁN HÀNG Q12, GÒ VẤP, HÓC MÔN, CỦ CHI - TPHCM",
+      "salary": "7-15 triệu VND",
+      "location": "Hồ Chí Minh",
+      "industry": "sales",
+      "date": "2025-04-10",
+      "time": "3 tháng",
+      "rank": "Chuyên viên-Nhân viên",
+      "quantity": "4 người",
+      "form": "Toàn thời gian",
+      "degree": "Trung học phổ thông",
+      "experience": "0 - 1 năm",
+      "professional": "Tư vấn , Bán hàng / Kinh doanh , Viễn Thông",
+      "description": [
+        "Giới thiệu và quảng bá sản phẩm của công ty.",
+        "Tư vấn và bán hàng ĐTDĐ OPPO.",
+        "Ghi nhận thông tin bán hàng, cập nhật thông tin thị trường.",
+        "Giải quyết các khiếu nại của khách hàng về sản phẩm.",
+        "Huấn luyện nhân viên tại Cửa Hàng về tính năng sản phẩm.",
+        "Thời gian làm việc: Ca ngày: sáng 9h-12h chiều 16h-21h (bắt buộc làm 2 ca)"
+      ],
+      "requirements": [
+        "Tuổi từ 18 đến 25",
+        "Nam và Nữ (PB - PG) ngoại hình khá",
+        "Tốt nghiệp 12/12 trở lên",
+        "Nhanh nhẹn, cẩn thận, chịu khó trong công việc",
+        "Yêu thích công nghệ, smartphone",
+        "Kỹ năng giao tiếp và ứng xử tốt",
+        "Trung thực chịu được áp lực công việc",
+        "Nhanh nhẹn, biết tổ chức công việc hợp lý"
+      ],
+      "benefits": [
+        "Bhyt, bhxh theo luật lao động.",
+        "Tặng quà các dịp lễ thưởng lễ tết.",
+        "Môi trường làm việc thân thiện, năng động, chuyên nghiệp và nhiều cơ hội phát triển.",
+        "Teambuilding mỗi năm 1 lần."
+      ],
+      "workplace": "CÔNG TY OPPO Quận 3 , Hồ Chí Minh , Viet Nam",
+      "id": "3"
+    },
+    {
+      "logo": "./img/congty/ctOPPO.png",
+      "company": "CÔNG TY OPPO VIỆT NAM",
+      "title": "Nhân Viên Phụ Kho (Quận Thủ Đức, Quận 9)",
+      "salary": "13 triệu VND",
+      "location": "Hồ Chí Minh",
+      "industry": "other",
+      "date": "2025-04-12",
+      "time": "3 tháng",
+      "rank": "Nhân viên",
+      "quantity": "2 người",
+      "form": "Toàn thời gian",
+      "degree": "Trung học phổ thông",
+      "experience": "0 - 1 năm",
+      "professional": "Vận chuyển / Giao thông / Kho bãi",
+      "description": [
+        "Tiếp nhận và soạn hàng, đóng gói, cân trọng lượng và hoàn tất chứng từ giao hàng theo quy trình.",
+        "Hỗ trợ bàn giao hàng hóa, chất hàng lên xe tải cho đơn vị vận chuyển.",
+        "Sắp xếp hàng hóa và vệ sinh kho, khu vực làm việc sạch sẽ.",
+        "Một số công việc từ cấp trên."
+      ],
+      "requirements": [
+        "Từ THPT trở lên.",
+        "Nam tuổi từ 18 - 40",
+        "Có sức khỏe tốt, trung thực, chịu khó trong công việc",
+        "Hòa đồng trong môi trường tập thể",
+        "Kỹ năng giao tiếp và ứng xử tốt",
+        "Trung thực chịu được áp lực công việc."
+      ],
+      "benefits": [
+        "Tính tăng ca (nếu có).",
+        "Lương tháng 13.",
+        "Được tham gia BHXH, BHYT, BHTN đầy đủ theo quy định của pháp luật.",
+        "Mua sản phẩm công ty với giá ưu đãi."
+      ],
+      "workplace": "Kho Logistics - quận Tân Bình, TP.HCM",
+      "id": "4"
+    },
+    {
+      "logo": "./img/congty/ctRES.png",
+      "company": "TẬP ĐOÀN GIAO DỊCH RECB",
+      "title": "NHÂN VIÊN KẾ TOÁN TỔNG HỢP (QUẬN 3)",
+      "salary": "7-12 triệu VND",
+      "location": "Hồ Chí Minh",
+      "industry": "accounting",
+      "date": "2025-04-04",
+      "time": "2 tháng",
+      "rank": "Chuyên viên-Nhân viên",
+      "quantity": "4 người",
+      "form": "Toàn thời gian",
+      "degree": "Cao đẳng",
+      "experience": "2 năm",
+      "professional": "An toàn lao động/Môi trường - Xử lý chất thải/Sản xuất - Lắp ráp - Chế biến",
+      "description": [
+        "Lập báo cáo thuế GTGT, TNCN định kỳ hàng quý.",
+        "Theo dõi, đối chiếu số liệu chi tiết với sổ tổng hợp.",
+        "Theo dõi công nợ phải thu phải trả.",
+        "Xuất hóa đơn theo dõi doanh thu bán hàng.",
+        "Các công việc khác theo sự sắp xếp của Kế toán trưởng."
+      ],
+      "requirements": [
+        "Tốt nghiệp Đại học, Cao đẳng chuyên ngành liên quan",
+        "Biết sử dụng vi tính văn phòng (Word, Excel, PowerPoint...)",
+        "Nhanh nhẹn, cẩn thận, chịu khó trong công việc",
+        "Có thái độ cầu thị, ham học hỏi",
+        "Đam mê công việc nghiên cứu và giảng dạy",
+        "Hiểu biết về nhập khẩu và thanh toán quốc tế, biết làm báo cáo tài chính là lợi thế"
+      ],
+      "benefits": [
+        "Mức lương từ 15 triệu trở lên + các khoản phụ cấp, thỏa thuận theo năng lực và kinh nghiệm.",
+        "Môi trường làm việc thân thiện, năng động, chuyên nghiệp và nhiều cơ hội phát triển",
+        "Trợ cấp nhà trọ, xăng dầu, sinh hoạt, quà Lễ tết.",
+        "Thời gian làm việc: theo giờ hành chính từ thứ 2 tới sáng thứ 7.",
+        "Môi trường làm việc thân thiện, ổn định và hỗ trợ nhau",
+        "Các quyền lợi khác: du lịch nghỉ mát hằng năm, tham gia các hoạt động vui chơi giải trí…"
+      ],
+      "workplace": "Kho Logistics - quận Tân Bình, TP.HCM",
+      "id": "5"
+    },
+    {
+      "logo": "./img/congty/ctFPT.jpg",
+      "company": "CÔNG TY PHÁT TRIỂN CHƯƠNG TRÌNH FPT",
+      "title": "LẬP TRÌNH VIÊN FULLSTACK",
+      "salary": "20 triệu VND",
+      "location": "Hà Nội",
+      "industry": "it",
+      "date": "2025-04-01",
+      "time": "2 tháng",
+      "rank": "Chuyên viên-Nhân viên",
+      "quantity": "3 người",
+      "form": "Toàn thời gian",
+      "degree": "Đại học",
+      "experience": "2 năm",
+      "professional": "An toàn lao động/Môi trường - Xử lý chất thải/Sản xuất - Lắp ráp - Chế biến",
+      "description": [
+        "Biên tập và dịch sách Chương trình Cao Đẳng",
+        "Quản lý, điều phối việc xây dựng học liệu, chỉnh sửa học liệu theo phản hồi của giảng viên",
+        "Tham gia viết bài tham dự các hội thảo/ hội nghị quốc tế",
+        "Các công việc khác theo sự phân công của cán bộ quản lý"
+      ],
+      "requirements": [
+        "Tốt nghiệp đại học chuyên ngành tiếng Anh hoặc tốt nghiệp Đại học và có chứng chỉ tiếng Anh tương đương trình độ cao cấp bậc 5 theo khung tham chiếu ngôn ngữ chung châu Âu (CEFR)",
+        "Biết sử dụng vi tính văn phòng (Word, Excel, PowerPoint...)",
+        "Nhanh nhẹn, cẩn thận, chịu khó trong công việc",
+        "Có thái độ cầu thị, ham học hỏi",
+        "Đam mê công việc nghiên cứu và giảng dạy",
+        "Ưu tiên tốt nghiệp ngành Quản trị kinh doanh hoặc Công nghệ thông tin, có kinh nghiệm giảng dạy hoặc làm việc đúng chuyên ngành tối thiểu 1 năm"
+      ],
+      "benefits": [
+        "Được đóng BHXH, BHYT, BHTN... theo quy định của Nhà nước",
+        "Môi trường làm việc thân thiện, năng động, chuyên nghiệp và nhiều cơ hội phát triển",
+        "Trợ cấp nhà trọ, xăng dầu, sinh hoạt, quà lễ tết",
+        "Mức lương xứng đáng với năng lực làm việc, chi tiết mức lương sẽ trao đổi thêm trong quá trình phỏng vấn",
+        "Người nhà được hưởng chế độ ưu đãi học phí khi học tập tại Tổ chức Giáo dục FPT",
+        "Các quyền lợi khác: du lịch nghỉ mát hằng năm, tham gia các hoạt động vui chơi giải trí…"
+      ],
+      "workplace": "Trường Đại học FPT",
+      "id": "6"
+    },
+    {
+      "logo": "./img/congty/ctTNHH_DongHui.jpg",
+      "company": "CÔNG TY TNHH ĐÔNG HÙI",
+      "title": "NHÂN VIÊN KINH DOANH",
+      "salary": "12 triệu VND",
+      "location": "Hà Nội",
+      "industry": "business",
+      "date": "2025-04-04",
+      "time": "2 tháng",
+      "rank": "Chuyên viên-Nhân viên",
+      "quantity": "4 người",
+      "form": "Toàn thời gian",
+      "degree": "Cao đẳng",
+      "experience": "2 năm",
+      "professional": "An toàn lao động/Môi trường - Xử lý chất thải/Sản xuất - Lắp ráp - Chế biến",
+      "description": [
+        "Lập báo cáo thuế GTGT, TNCN định kỳ hàng quý.",
+        "Theo dõi, đối chiếu số liệu chi tiết với sổ tổng hợp.",
+        "Theo dõi công nợ phải thu phải trả.",
+        "Xuất hóa đơn theo dõi doanh thu bán hàng.",
+        "Các công việc khác theo sự sắp xếp của Kế toán trưởng."
+      ],
+      "requirements": [
+        "Tốt nghiệp Đại học, Cao đẳng chuyên ngành liên quan",
+        "Biết sử dụng vi tính văn phòng (Word, Excel, PowerPoint...)",
+        "Nhanh nhẹn, cẩn thận, chịu khó trong công việc",
+        "Có thái độ cầu thị, ham học hỏi",
+        "Đam mê công việc nghiên cứu và giảng dạy",
+        "Hiểu biết về nhập khẩu và thanh toán quốc tế, biết làm báo cáo tài chính là lợi thế"
+      ],
+      "benefits": [
+        "Mức lương từ 15 triệu trở lên + các khoản phụ cấp, thỏa thuận theo năng lực và kinh nghiệm.",
+        "Môi trường làm việc thân thiện, năng động, chuyên nghiệp và nhiều cơ hội phát triển",
+        "Trợ cấp nhà trọ, xăng dầu, sinh hoạt, quà Lễ tết.",
+        "Thời gian làm việc: theo giờ hành chính từ thứ 2 tới sáng thứ 7.",
+        "Môi trường làm việc thân thiện, ổn định và hỗ trợ nhau",
+        "Các quyền lợi khác: du lịch nghỉ mát hằng năm, tham gia các hoạt động vui chơi giải trí…"
+      ],
+      "workplace": "Hà Nội: Lô thương mại số 01 tầng 03 Tòa nhà Luxury Park Views, D32 khu đô thị mới Cầu Giấy, Phường Yên Hoà, Cầu Giấy",
+      "id": "7"
+    },
+    {
+      "logo": "./img/congty/ctOPPO.png",
+      "company": "CÔNG TY OPPO VIỆT NAM",
+      "title": "NHÂN VIÊN MARKETING",
+      "salary": "10-15 triệu VND",
+      "location": "Hồ Chí Minh",
+      "industry": "sales",
+      "date": "2025-04-10",
+      "time": "3 tháng",
+      "rank": "Chuyên viên-Nhân viên",
+      "quantity": "4 người",
+      "form": "Toàn thời gian",
+      "degree": "Trung học phổ thông",
+      "experience": "0 - 1 năm",
+      "professional": "Tư vấn , Bán hàng / Kinh doanh , Viễn Thông",
+      "description": [
+        "Giới thiệu và quảng bá sản phẩm của công ty.",
+        "Tư vấn và bán hàng ĐTDĐ OPPO.",
+        "Ghi nhận thông tin bán hàng, cập nhật thông tin thị trường.",
+        "Giải quyết các khiếu nại của khách hàng về sản phẩm.",
+        "Huấn luyện nhân viên tại Cửa Hàng về tính năng sản phẩm.",
+        "Thời gian làm việc: Ca ngày: sáng 9h-12h chiều 16h-21h (bắt buộc làm 2 ca)"
+      ],
+      "requirements": [
+        "Tuổi từ 18 đến 25",
+        "Nam và Nữ (PB - PG) ngoại hình khá",
+        "Tốt nghiệp 12/12 trở lên",
+        "Nhanh nhẹn, cẩn thận, chịu khó trong công việc",
+        "Yêu thích công nghệ, smartphone",
+        "Kỹ năng giao tiếp và ứng xử tốt",
+        "Trung thực chịu được áp lực công việc",
+        "Nhanh nhẹn, biết tổ chức công việc hợp lý"
+      ],
+      "benefits": [
+        "Bhyt, bhxh theo luật lao động.",
+        "Tặng quà các dịp lễ thưởng lễ tết.",
+        "Môi trường làm việc thân thiện, năng động, chuyên nghiệp và nhiều cơ hội phát triển.",
+        "Teambuilding mỗi năm 1 lần."
+      ],
+      "workplace": "CÔNG TY OPPO Quận 3 , Hồ Chí Minh , Viet Nam",
+      "id": "8"
+    }
+  ];
