@@ -5,6 +5,7 @@ import JobList from '../components/JobList';
 import JobFilter from '../components/JobFilter';
 import { fetchJobs } from '../api';
 import RecruitIntro from '../components/RecruitIntro';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const [jobs, setJobs] = useState([]);
@@ -33,12 +34,12 @@ const HomePage = () => {
           <div className="col-span-1 md:col-span-2">
             <JobList jobs={jobs} />
             <div className="text-right p-4">
-              <a
-                href="/jobs"
+              <Link
+                to="/jobs"
                 className="text-blue-600 hover:underline font-medium transition-all duration-300 hover:text-blue-800"
               >
                 Xem tất cả ➔
-              </a>
+              </Link>
             </div>
           </div>
 
