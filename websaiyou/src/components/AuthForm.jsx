@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const AuthForm = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const userType = location.pathname.includes('jobseeker') ? 'jobseeker' : 'employer';
   const isLogin = location.pathname.includes('login');
 
@@ -13,10 +16,12 @@ const AuthForm = () => {
     password: '',
     confirmPassword: '',
   });
-  const [message, setMessage] = useState(''); // Thông báo
-  const [messageType, setMessageType] = useState(''); // Loại thông báo: 'success' hoặc 'error'
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Xử lý thay đổi input
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -24,64 +29,129 @@ const AuthForm = () => {
     });
   };
 
-  // Xử lý submit form
-  const handleSubmit = (e) => {
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
     setMessageType('');
+    setIsLoading(true);
+
+    const API_URL = 'https://681350dd129f6313e210e6a8.mockapi.io/users';
 
     if (isLogin) {
-      // Xử lý đăng nhập
       if (!formData.email || !formData.password) {
         setMessage('Vui lòng nhập đầy đủ email và mật khẩu.');
         setMessageType('error');
+        setIsLoading(false);
         return;
       }
-      setMessage(`Đăng nhập thành công (${userType === 'jobseeker' ? 'Người tìm việc' : 'Nhà tuyển dụng'})!`);
-      setMessageType('success');
-      console.log(`Đăng nhập (${userType})`, { email: formData.email, password: formData.password });
+
+      try {
+        const response = await fetch(API_URL);
+        const users = await response.json();
+
+        const user = users.find(
+          (u) => u.email === formData.email && u.userType === userType
+        );
+
+        if (!user) {
+          setMessage('Email không tồn tại hoặc loại người dùng không đúng.');
+          setMessageType('error');
+          setIsLoading(false);
+          return;
+        }
+
+        if (user.password !== formData.password) {
+          setMessage('Mật khẩu không đúng.');
+          setMessageType('error');
+          setIsLoading(false);
+          return;
+        }
+
+        login(user, userType);
+        setMessage(`Đăng nhập thành công (${userType === 'jobseeker' ? 'Người tìm việc' : 'Nhà tuyển dụng'})!`);
+        setMessageType('success');
+        navigate(userType === 'jobseeker' ? '/jobs' : '/employer/jobs');
+      } catch (error) {
+        setMessage('Lỗi hệ thống. Vui lòng thử lại.');
+        setMessageType('error');
+      } finally {
+        setIsLoading(false);
+      }
     } else {
-      // Xử lý đăng ký
       if (userType === 'jobseeker') {
         if (!formData.fullName || !formData.email || !formData.password || !formData.confirmPassword) {
           setMessage('Vui lòng nhập đầy đủ thông tin.');
           setMessageType('error');
+          setIsLoading(false);
           return;
         }
-        if (formData.password !== formData.confirmPassword) {
-          setMessage('Mật khẩu xác nhận không khớp.');
-          setMessageType('error');
-          return;
-        }
-        setMessage('Đăng ký thành công (Người tìm việc)!');
-        setMessageType('success');
-        console.log('Đăng ký (Jobseeker)', {
-          fullName: formData.fullName,
-          email: formData.email,
-          password: formData.password,
-        });
       } else {
         if (!formData.companyName || !formData.email || !formData.password || !formData.confirmPassword) {
           setMessage('Vui lòng nhập đầy đủ thông tin.');
           setMessageType('error');
+          setIsLoading(false);
           return;
         }
-        if (formData.password !== formData.confirmPassword) {
-          setMessage('Mật khẩu xác nhận không khớp.');
+      }
+
+      if (formData.password !== formData.confirmPassword) {
+        setMessage('Mật khẩu xác nhận không khớp.');
+        setMessageType('error');
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(API_URL);
+        const users = await response.json();
+
+        const emailExists = users.some((u) => u.email === formData.email);
+
+        if (emailExists) {
+          setMessage('Email đã tồn tại.');
           setMessageType('error');
+          setIsLoading(false);
           return;
         }
-        setMessage('Đăng ký thành công (Nhà tuyển dụng)!');
-        setMessageType('success');
-        console.log('Đăng ký (Employer)', {
-          companyName: formData.companyName,
-          email: formData.email,
-          password: formData.password,
+
+        const postResponse = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullName: userType === 'jobseeker' ? formData.fullName : '',
+            companyName: userType === 'employer' ? formData.companyName : '',
+            email: formData.email,
+            password: formData.password,
+            userType,
+          }),
         });
+
+        if (postResponse.ok) {
+          setMessage('Đăng ký thành công! Chuyển hướng đến đăng nhập...');
+          setMessageType('success');
+          setTimeout(() => {
+            navigate(userType === 'jobseeker' ? '/jobseeker/login' : '/employer/login');
+          }, 2000);
+        } else {
+          setMessage('Đăng ký thất bại.');
+          setMessageType('error');
+        }
+      } catch (error) {
+        setMessage('Lỗi hệ thống. Vui lòng thử lại.');
+        setMessageType('error');
+      } finally {
+        setIsLoading(false);
       }
     }
 
-    // Reset form sau khi submit thành công
     if (messageType === 'success') {
       setFormData({
         fullName: '',
@@ -93,31 +163,44 @@ const AuthForm = () => {
     }
   };
 
-  // Xử lý đăng nhập bằng Google
-  const handleGoogleLogin = () => {
-    setMessage('');
-    setMessageType('');
-    setMessage(`Đăng ${isLogin ? 'nhập' : 'ký'} bằng Google (${userType === 'jobseeker' ? 'Người tìm việc' : 'Nhà tuyển dụng'})!`);
-    setMessageType('success');
-    console.log(`Đăng ${isLogin ? 'nhập' : 'ký'} bằng Google (${userType})`);
-  };
+  // Tự động đóng thông báo sau 3 giây
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage('');
+        setMessageType('');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
-  // Xử lý đăng nhập bằng Facebook
-  const handleFacebookLogin = () => {
-    setMessage('');
-    setMessageType('');
-    setMessage(`Đăng ${isLogin ? 'nhập' : 'ký'} bằng Facebook (${userType === 'jobseeker' ? 'Người tìm việc' : 'Nhà tuyển dụng'})!`);
-    setMessageType('success');
-    console.log(`Đăng ${isLogin ? 'nhập' : 'ký'} bằng Facebook (${userType})`);
+  const handleBack = () => {
+    navigate(-1);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-white to-gray-200 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Hiệu ứng nền động */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 animate-pulse pointer-events-none" />
-
       <div className="max-w-md w-full bg-white/80 backdrop-blur-md rounded-2xl shadow-2xl p-8 transform transition-all duration-500 hover:scale-105 animate-zoomIn">
-        {/* Tab chọn Jobseeker/Employer */}
+        <button
+          onClick={handleBack}
+          className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 transition-colors duration-200"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
         <div className="flex justify-center mb-8 relative">
           <div className="inline-flex rounded-xl bg-gray-100 p-1 shadow-inner">
             <Link
@@ -142,8 +225,6 @@ const AuthForm = () => {
             </Link>
           </div>
         </div>
-
-        {/* Tiêu đề */}
         <h2 className="text-center text-3xl font-bold text-gray-900 mb-6 animate-fadeIn">
           {userType === 'jobseeker'
             ? isLogin
@@ -153,8 +234,6 @@ const AuthForm = () => {
             ? 'Đăng nhập - Nhà tuyển dụng'
             : 'Đăng ký - Nhà tuyển dụng'}
         </h2>
-
-        {/* Form */}
         <form className="space-y-6" onSubmit={handleSubmit}>
           {!isLogin && (
             <div className="relative">
@@ -169,6 +248,7 @@ const AuthForm = () => {
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
                   placeholder={userType === 'jobseeker' ? 'Nhập họ tên' : 'Nhập tên công ty'}
+                  disabled={isLoading}
                 />
                 <svg
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
@@ -182,7 +262,6 @@ const AuthForm = () => {
               </div>
             </div>
           )}
-
           <div className="relative">
             <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
             <div className="relative">
@@ -193,6 +272,7 @@ const AuthForm = () => {
                 onChange={handleChange}
                 className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
                 placeholder="Nhập email"
+                disabled={isLoading}
               />
               <svg
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
@@ -205,17 +285,17 @@ const AuthForm = () => {
               </svg>
             </div>
           </div>
-
           <div className="relative">
             <label className="block text-sm font-medium text-gray-700 mb-2">Mật khẩu</label>
             <div className="relative">
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
+                className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
                 placeholder="Nhập mật khẩu"
+                disabled={isLoading}
               />
               <svg
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
@@ -226,20 +306,38 @@ const AuthForm = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11c0-1.1-.9-2-2-2s-2 .9-2 2 2 4 2 4m4-4c0-1.1-.9-2-2-2s-2 .9-2 2 2 4 2 4m-6 4h12" />
               </svg>
+              <button
+                type="button"
+                onClick={toggleShowPassword}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 focus:outline-none"
+                disabled={isLoading}
+              >
+                {showPassword ? (
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m-4.495 7.5l16.97-16.97m-4.497 7.5a9.97 9.97 0 011.563 3.029c-.738 2.095-2.53 3.752-4.498 4.47M12 5c.797 0 1.584.107 2.342.315m4.66 2.156A10.05 10.05 0 0112 5c-4.478 0-8.268 2.943-9.543 7a9.97 9.97 0 001.563 3.029m4.66-2.156A10.05 10.05 0 0112 5c.797 0 1.584.107 2.342.315" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3l18 18" />
+                  </svg>
+                ) : (
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                )}
+              </button>
             </div>
           </div>
-
           {!isLogin && (
             <div className="relative">
               <label className="block text-sm font-medium text-gray-700 mb-2">Xác nhận mật khẩu</label>
               <div className="relative">
                 <input
-                  type="password"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
+                  className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
                   placeholder="Xác nhận mật khẩu"
+                  disabled={isLoading}
                 />
                 <svg
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
@@ -250,20 +348,37 @@ const AuthForm = () => {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11c0-1.1-.9-2-2-2s-2 .9-2 2 2 4 2 4m4-4c0-1.1-.9-2-2-2s-2 .9-2 2 2 4 2 4m-6 4h12" />
                 </svg>
+                <button
+                  type="button"
+                  onClick={toggleShowConfirmPassword}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 focus:outline-none"
+                  disabled={isLoading}
+                >
+                  {showConfirmPassword ? (
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m-4.495 7.5l16.97-16.97m-4.497 7.5a9.97 9.97 0 011.563 3.029c-.738 2.095-2.53 3.752-4.498 4.47M12 5c.797 0 1.584.107 2.342.315m4.66 2.156A10.05 10.05 0 0112 5c-4.478 0-8.268 2.943-9.543 7a9.97 9.97 0 001.563 3.029m4.66-2.156A10.05 10.05 0 0112 5c.797 0 1.584.107 2.342.315" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3l18 18" />
+                    </svg>
+                  ) : (
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  )}
+                </button>
               </div>
             </div>
           )}
-
-          {/* Nút submit */}
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95"
+            disabled={isLoading}
+            className={`w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95 ${
+              isLoading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
-            {isLogin ? 'Đăng nhập' : 'Đăng ký'}
+            {isLoading ? 'Đang xử lý...' : isLogin ? 'Đăng nhập' : 'Đăng ký'}
           </button>
         </form>
-
-        {/* Đăng nhập bằng Google/Facebook */}
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -275,8 +390,8 @@ const AuthForm = () => {
           </div>
           <div className="mt-6 grid grid-cols-2 gap-4">
             <button
-              onClick={handleGoogleLogin}
               className="w-full flex items-center justify-center py-3 px-4 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 hover:shadow-md active:scale-95"
+              disabled={isLoading}
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -299,8 +414,8 @@ const AuthForm = () => {
               Google
             </button>
             <button
-              onClick={handleFacebookLogin}
               className="w-full flex items-center justify-center py-3 px-4 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 hover:shadow-md active:scale-95"
+              disabled={isLoading}
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -312,21 +427,23 @@ const AuthForm = () => {
             </button>
           </div>
         </div>
-
-        {/* Thông báo */}
         {message && (
           <div
-            className={`fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg transform transition-all duration-500 ${
+            className={`fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg transform transition-all duration-500 flex items-center ${
               messageType === 'success'
                 ? 'bg-green-500 text-white animate-slideInRight'
                 : 'bg-red-500 text-white animate-shake'
             }`}
           >
-            {message}
+            <span>{message}</span>
+            <button
+              onClick={() => setMessage('')}
+              className="ml-2 text-white hover:text-gray-200 focus:outline-none"
+            >
+              ×
+            </button>
           </div>
         )}
-
-        {/* Chuyển đổi giữa đăng nhập và đăng ký */}
         <div className="text-center mt-6 text-sm">
           <p className="text-gray-600">
             {isLogin ? 'Bạn chưa có tài khoản?' : 'Đã có tài khoản?'}

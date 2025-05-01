@@ -11,7 +11,7 @@ const ResumePage = () => {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   // State cho avatar
-  const [avatar, setAvatar] = useState('https://via.placeholder.com/80'); // Ảnh mặc định
+  const [avatar, setAvatar] = useState('/img/avatar.png'); // Ảnh mặc định
 
   // State cho giới thiệu
   const [introduction, setIntroduction] = useState('');

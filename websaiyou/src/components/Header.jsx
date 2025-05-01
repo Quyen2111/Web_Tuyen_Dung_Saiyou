@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isJobsDropdownOpen, setIsJobsDropdownOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, userType, logout } = useContext(AuthContext);
 
   const isEmployer = location.pathname.startsWith('/employer');
 
@@ -15,6 +19,20 @@ const Header = () => {
   const toggleJobsDropdown = () => {
     setIsJobsDropdownOpen(!isJobsDropdownOpen);
   };
+
+  const toggleUserDropdown = () => {
+    setIsUserDropdownOpen(!isUserDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    if (window.confirm('Bạn có chắc muốn đăng xuất?')) {
+      logout();
+      navigate(userType === 'jobseeker' ? '/jobseeker/login' : '/employer/login');
+    }
+    setIsUserDropdownOpen(false);
+  };
+
+  const userName = userType === 'jobseeker' ? user?.fullName : user?.companyName;
 
   const industries = [
     { name: 'Bán hàng', value: 'sales' },
@@ -126,7 +144,7 @@ const Header = () => {
                         {industries.map((industry) => (
                           <li key={industry.value}>
                             <Link
-                              to={`/jobs?industry=${industry.value}`}
+                              to={`/jobs/industry/${industry.value}`}
                               className="text-gray-600 hover:text-blue-600 hover:underline text-sm transition-colors duration-200"
                               onClick={() => setIsJobsDropdownOpen(false)}
                             >
@@ -145,7 +163,7 @@ const Header = () => {
                         {locations.map((location) => (
                           <li key={location.value}>
                             <Link
-                              to={`/jobs?location=${location.value}`}
+                              to={`/jobs/location/${location.value}`}
                               className="text-gray-600 hover:text-blue-600 hover:underline text-sm transition-colors duration-200"
                               onClick={() => setIsJobsDropdownOpen(false)}
                             >
@@ -183,7 +201,66 @@ const Header = () => {
       </nav>
 
       <div className="hidden md:flex items-center space-x-3 lg:space-x-4 animate-slideInRight">
-        {isEmployer ? (
+        {user ? (
+          <div className="relative">
+            <div
+              className="flex items-center space-x-2 cursor-pointer"
+              onClick={toggleUserDropdown}
+            >
+              <img
+                src="/img/avatar.png"
+                alt="User Avatar"
+                className="w-10 h-10 rounded-full border-2 border-gray-300"
+              />
+              <span className="text-gray-700 font-medium text-sm lg:text-base">
+                {userName || 'Người dùng'}
+              </span>
+              <svg
+                className={`w-4 h-4 transform transition-transform duration-200 ${
+                  isUserDropdownOpen ? 'rotate-180' : ''
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+            {isUserDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50 py-2 animate-fadeIn">
+                <div className="px-4 py-2 text-gray-600 text-sm border-b border-gray-200">
+                  Xin chào, {userName || 'Người dùng'}!
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 font-medium text-sm transition-colors duration-200 flex items-center"
+                >
+                  <svg
+                    className="w-5 h-5 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                    />
+                  </svg>
+                  Đăng xuất
+                </button>
+              </div>
+            )}
+          </div>
+        ) : isEmployer ? (
           <>
             <Link
               to="/employer/login"
@@ -289,13 +366,15 @@ const Header = () => {
                 >
                   Liên hệ
                 </Link>
-                <Link
-                  to="/"
-                  className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
-                  onClick={toggleMenu}
-                >
-                  Dành cho ứng viên
-                </Link>
+                {!user && (
+                  <Link
+                    to="/"
+                    className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
+                    onClick={toggleMenu}
+                  >
+                    Dành cho ứng viên
+                  </Link>
+                )}
               </>
             ) : (
               <>
@@ -341,7 +420,7 @@ const Header = () => {
                           {industries.map((industry) => (
                             <li key={industry.value}>
                               <Link
-                                to={`/jobs?industry=${industry.value}`}
+                                to={`/jobs/industry/${industry.value}`}
                                 className="text-gray-600 hover:text-blue-600 text-sm transition-colors duration-200"
                                 onClick={toggleMenu}
                               >
@@ -360,7 +439,7 @@ const Header = () => {
                           {locations.map((location) => (
                             <li key={location.value}>
                               <Link
-                                to={`/jobs?location=${location.value}`}
+                                to={`/jobs/location/${location.value}`}
                                 className="text-gray-600 hover:text-blue-600 text-sm transition-colors duration-200"
                                 onClick={toggleMenu}
                               >
@@ -395,12 +474,57 @@ const Header = () => {
                 >
                   Liên Hệ
                 </Link>
+                {!user && (
+                  <Link
+                    to="/employer"
+                    className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
+                    onClick={toggleMenu}
+                  >
+                    Nhà Tuyển Dụng
+                  </Link>
+                )}
               </>
             )}
           </nav>
 
           <div className="flex flex-col p-5 space-y-4">
-            {isEmployer ? (
+            {user ? (
+              <div className="flex items-center space-x-3">
+                <img
+                  src="/img/avatar.png"
+                  alt="User Avatar"
+                  className="w-10 h-10 rounded-full border-2 border-gray-300"
+                />
+                <div className="flex flex-col">
+                  <span className="text-gray-700 font-medium text-lg">
+                    {userName || 'Người dùng'}
+                  </span>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      toggleMenu();
+                    }}
+                    className="flex items-center text-red-600 hover:text-red-700 font-medium text-lg transition-colors duration-200 animate-slideInRight"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      />
+                    </svg>
+                    Đăng xuất
+                  </button>
+                </div>
+              </div>
+            ) : isEmployer ? (
               <>
                 <Link
                   to="/employer/register"
@@ -448,7 +572,7 @@ const Header = () => {
                     className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-slideInRight"
                     onClick={toggleMenu}
                   >
-                    Chào Nhà Tuyển Dụng
+                    Nhà Tuyển Dụng
                   </Link>
                 </div>
               </>
