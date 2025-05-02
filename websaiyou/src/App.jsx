@@ -14,6 +14,7 @@ import EmployerService from './pages/EmployerService';
 import PostJob from './pages/PostJob';
 import EmployerJob from './pages/EmployerJob';
 import EmployerContact from './pages/EmployerContact';
+import ManagerPostJob from './pages/ManagerPostJob';
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
               <Route path="/jobseeker/register" element={<AuthForm />} />
               <Route path="/employer/login" element={<AuthForm />} />
               <Route path="/employer/register" element={<AuthForm />} />
-              <Route path="/employer/services" element={<EmployerService />} />
+              <Route path="/employer/services" element={<ManagerPostJob />} />
               <Route path="/employer/contact" element={<EmployerContact />} />
               <Route path="/employer/*" element={<EmployerService />} />
 

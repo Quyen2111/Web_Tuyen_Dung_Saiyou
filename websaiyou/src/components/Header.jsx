@@ -87,7 +87,7 @@ const Header = () => {
               to="/employer/services"
               className="text-gray-700 hover:text-blue-600 font-medium text-base lg:text-lg transition-colors duration-200 animate-slideUp"
             >
-              Gói dịch vụ
+              Quản lý tin tuyển dụng
             </Link>
             <Link
               to="/employer/contact"
@@ -357,7 +357,7 @@ const Header = () => {
                   className="text-gray-700 hover:text-blue-600 font-medium text-lg transition-colors duration-200 animate-fadeIn"
                   onClick={toggleMenu}
                 >
-                  Gói dịch vụ
+                  Quản lý tin tuyển dụng
                 </Link>
                 <Link
                   to="/employer/contact"
