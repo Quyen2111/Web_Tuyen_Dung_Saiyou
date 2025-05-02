@@ -5,12 +5,13 @@ import EditJobForm from "../components/EditJobForm"
 import DeleteConfirmation from "../components/DeleteConfirmation"
 import { Link } from "react-router-dom"
 
+
 const ManagerPostJob = () => {
   const [jobs, setJobs] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
-  const [statusFilter, setStatusFilter] = useState("All Status")
+  const [statusFilter, setStatusFilter] = useState("All Industry")
   const [totalEntries, setTotalEntries] = useState(0)
   const itemsPerPage = 5
 
@@ -19,6 +20,7 @@ const ManagerPostJob = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [currentJob, setCurrentJob] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
     fetchJobs()
@@ -113,8 +115,21 @@ const ManagerPostJob = () => {
     }
   }
 
-  // Filter jobs based on status
-  const filteredJobs = statusFilter === "All Status" ? jobs : jobs.filter((job) => job.industry === statusFilter)
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value)
+    setCurrentPage(1) // Reset to first page when searching
+  }
+
+  // Filter jobs based on status and search query
+  const filteredJobs = jobs.filter((job) => {
+    // Filter by industry if not "All Industry"
+    const matchesIndustry = statusFilter === "All Industry" || job.industry === statusFilter
+
+    // Filter by search query (case insensitive)
+    const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase())
+
+    return matchesIndustry && matchesSearch
+  })
 
   // Calculate pagination
   const indexOfLastJob = currentPage * itemsPerPage
@@ -155,9 +170,9 @@ const ManagerPostJob = () => {
              to="/employer/post-job" 
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center"
                  >
-                     <span className="mr-1">+</span> Post New Job
+                    <span className="mr-1">+</span> Post New Job
         </Link>
-       
+
       </div>
 
       <div className="flex justify-between items-center mb-6">
@@ -166,6 +181,8 @@ const ManagerPostJob = () => {
           <input
             type="text"
             placeholder="Search jobs..."
+            value={searchQuery}
+            onChange={handleSearchChange}
             className="pl-10 pr-4 py-2 border border-gray-200 rounded-md w-64 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
         </div>
@@ -177,14 +194,14 @@ const ManagerPostJob = () => {
               onChange={handleStatusFilterChange}
               className="appearance-none pl-4 pr-10 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
-              <option>All Industry</option>
+               <option>All Industry</option>
               <option>it</option>
               <option>accounting</option>
               <option>sales</option>
               <option>other</option>
               <option>business</option>
               <option>engineering</option>
-              
+
             </select>
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           </div>
