@@ -15,6 +15,7 @@ import PostJob from './pages/PostJob';
 import EmployerJob from './pages/EmployerJob';
 import EmployerContact from './pages/EmployerContact';
 import ManagerPostJob from './pages/ManagerPostJob';
+import CandidateDetailPage from './pages/CandidateDetailPage';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/jobseeker/login" element={<AuthForm />} />
               <Route path="/jobseeker/register" element={<AuthForm />} />
+              
               <Route path="/employer/login" element={<AuthForm />} />
               <Route path="/employer/register" element={<AuthForm />} />
               <Route path="/employer/contact" element={<EmployerContact />} />
@@ -48,7 +50,8 @@ function App() {
               <Route element={<ProtectedRoute allowedUserType="employer" />}>
                 <Route path="/employer/post-job" element={<PostJob />} />
                 <Route path="/employer/jobs" element={<EmployerJob />} />
-                <Route path="/employer/services" element={<ManagerPostJob />} />
+                <Route path="/employer/jobs/:candidateId" element={<CandidateDetailPage />} />
+                <Route path="/employer/services" element={<ManagerPostJob />} />                
               </Route>
 
               {/* Route 404 */}
