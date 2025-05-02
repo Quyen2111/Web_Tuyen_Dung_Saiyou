@@ -36,7 +36,6 @@ function App() {
               <Route path="/jobseeker/register" element={<AuthForm />} />
               <Route path="/employer/login" element={<AuthForm />} />
               <Route path="/employer/register" element={<AuthForm />} />
-              <Route path="/employer/services" element={<ManagerPostJob />} />
               <Route path="/employer/contact" element={<EmployerContact />} />
               <Route path="/employer/*" element={<EmployerService />} />
 
@@ -49,6 +48,7 @@ function App() {
               <Route element={<ProtectedRoute allowedUserType="employer" />}>
                 <Route path="/employer/post-job" element={<PostJob />} />
                 <Route path="/employer/jobs" element={<EmployerJob />} />
+                <Route path="/employer/services" element={<ManagerPostJob />} />
               </Route>
 
               {/* Route 404 */}
