@@ -16,6 +16,7 @@ import EmployerJob from './pages/EmployerJob';
 import EmployerContact from './pages/EmployerContact';
 import ManagerPostJob from './pages/ManagerPostJob';
 import CandidateDetailPage from './pages/CandidateDetailPage';
+import ChatButton from './components/ChatButton'; // Import the ChatButton
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <ChatButton /> {/* Add ChatButton here, outside Routes */}
         </div>
       </Router>
     </AuthProvider>
