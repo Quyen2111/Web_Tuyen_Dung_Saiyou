@@ -8,7 +8,7 @@ const PostJob = () => {
     title: "",
     salary: "",
     location: "",
-    industry: "Công nghệ thông tin",
+    industry: "it", // Default to English value for API
     date: "",
     time: "",
     rank: "Nhân viên",
@@ -25,42 +25,49 @@ const PostJob = () => {
 
   const [formData, setFormData] = useState(initialState)
 
+  // Industry options with Vietnamese names and English values
+  const industryOptions = [
+    { name: "Công nghệ thông tin", value: "it" },
+    { name: "Tài chính - Ngân hàng", value: "finance" },
+    { name: "Kế toán - Kiểm toán", value: "accounting" },
+    { name: "Marketing", value: "marketing" },
+    { name: "Bán hàng", value: "sales" },
+  ]
+
   const handleChange = (e) => {
     const { name, value } = e.target
 
-    // Xử lý các trường thông thường
-    if (!e.target.hasAttribute("data-index")) {
+    // Handle array fields (description, requirements, benefits)
+    if (e.target.hasAttribute("data-index")) {
+      const index = Number.parseInt(e.target.getAttribute("data-index"))
+      const field = e.target.getAttribute("data-field")
+
+      const fieldMapping = {
+        jobDescription: "description",
+        jobRequirements: "requirements",
+        benefits: "benefits",
+      }
+
+      const stateField = fieldMapping[field] || field
+
+      const newArray = [...formData[stateField]]
+      newArray[index] = value
+
       setFormData({
         ...formData,
-        [name]: value,
+        [stateField]: newArray,
       })
       return
     }
 
-    // Xử lý các trường dạng mảng
-    const index = Number.parseInt(e.target.getAttribute("data-index"))
-    const field = e.target.getAttribute("data-field")
-
-    // Map the field names from the data attributes to the state property names
-    const fieldMapping = {
-      jobDescription: "description",
-      jobRequirements: "requirements",
-      benefits: "benefits",
-    }
-
-    const stateField = fieldMapping[field] || field
-
-    const newArray = [...formData[stateField]]
-    newArray[index] = value
-
+    // Handle regular fields
     setFormData({
       ...formData,
-      [stateField]: newArray,
+      [name]: value,
     })
   }
 
   const removeItem = (field, index) => {
-    // Map the field names to the state property names
     const fieldMapping = {
       jobDescription: "description",
       jobRequirements: "requirements",
@@ -77,7 +84,6 @@ const PostJob = () => {
   }
 
   const addItem = (field) => {
-    // Map the field names to the state property names
     const fieldMapping = {
       jobDescription: "description",
       jobRequirements: "requirements",
@@ -108,8 +114,6 @@ const PostJob = () => {
         const result = await response.json()
         console.log("Job posted successfully:", result)
         alert("Đăng tin thành công!")
-
-        // Reset form về trạng thái ban đầu
         setFormData(initialState)
       } else {
         console.error("Failed to post job:", response.statusText)
@@ -201,11 +205,11 @@ const PostJob = () => {
                   onChange={handleChange}
                   className="w-full border border-gray-300 rounded-md px-3 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                  <option value="Công nghệ thông tin">Công nghệ thông tin</option>
-                  <option value="Tài chính - Ngân hàng">Tài chính - Ngân hàng</option>
-                  <option value="Kế toán - Kiểm toán">Kế toán - Kiểm toán</option>
-                  <option value="Marketing">Marketing</option>
-                  <option value="Bán hàng">Bán hàng</option>
+                  {industryOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.name}
+                    </option>
+                  ))}
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                   <svg
@@ -436,7 +440,7 @@ const PostJob = () => {
                       value={item}
                       onChange={handleChange}
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required={index === 0} // Chỉ bắt buộc mục đầu tiên
+                      required={index === 0}
                     />
                     {formData.description.length > 1 && (
                       <button
@@ -497,7 +501,7 @@ const PostJob = () => {
                       value={item}
                       onChange={handleChange}
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required={index === 0} // Chỉ bắt buộc mục đầu tiên
+                      required={index === 0}
                     />
                     {formData.requirements.length > 1 && (
                       <button
